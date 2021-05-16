@@ -287,7 +287,7 @@ static void ui_draw_vision_event(UIState *s) {
 
   const int bg_wheel_size = 100;
   const int bg_wheel_x = center_x + (radius - bg_wheel_size);
-  const int bg_wheel_y = center_y + (bg_wheel_size/2);
+  const int bg_wheel_y = center_y;
   const int img_wheel_size = bg_wheel_size*1.5;
   const int img_wheel_x = bg_wheel_x - (img_wheel_size/2);
   const int img_wheel_y = bg_wheel_y - (bdr_s*4.5);
@@ -469,7 +469,7 @@ static void bb_ui_draw_measures_right(UIState *s, int bb_x, int bb_y, int bb_w) 
       }
     snprintf(val_str, sizeof(val_str), "%.0f", (round((scene->cpuTempAvg))));
     strcat(val_str, val_add);
-    bb_h += bb_ui_draw_measure(s, val_str, "CPU 온도", bb_rx, bb_ry, val_color, lab_color, value_fontSize, label_fontSize);
+    bb_h += bb_ui_draw_measure(s, val_str, "CPU TEMP", bb_rx, bb_ry, val_color, lab_color, value_fontSize, label_fontSize);
     bb_ry = bb_y + bb_h;
   }
 
@@ -492,7 +492,7 @@ static void bb_ui_draw_measures_right(UIState *s, int bb_x, int bb_y, int bb_w) 
       snprintf(val_str, sizeof(val_str), "-");
     }
     strcat(val_str, val_add);
-    bb_h += bb_ui_draw_measure(s, val_str, "앞차 거리차", bb_rx, bb_ry, val_color, lab_color, value_fontSize, label_fontSize);
+    bb_h += bb_ui_draw_measure(s, val_str, "REL DIST", bb_rx, bb_ry, val_color, lab_color, value_fontSize, label_fontSize);
     bb_ry = bb_y + bb_h;
   }
 
@@ -515,7 +515,7 @@ static void bb_ui_draw_measures_right(UIState *s, int bb_x, int bb_y, int bb_w) 
       snprintf(val_str, sizeof(val_str), "-");
     }
     strcat(val_str, val_add);
-    bb_h +=bb_ui_draw_measure(s, val_str, "앞차 속도차", bb_rx, bb_ry, val_color, lab_color, value_fontSize, label_fontSize);
+    bb_h +=bb_ui_draw_measure(s, val_str, "REL SPEED", bb_rx, bb_ry, val_color, lab_color, value_fontSize, label_fontSize);
     bb_ry = bb_y + bb_h;
   }
 
@@ -536,7 +536,7 @@ static void bb_ui_draw_measures_right(UIState *s, int bb_x, int bb_y, int bb_w) 
       // steering is in degree
       snprintf(val_str, sizeof(val_str), "%.1f",(angleSteers));
     strcat(val_str, val_add);
-    bb_h += bb_ui_draw_measure(s, val_str, "핸들 조향각", bb_rx, bb_ry, val_color, lab_color, value_fontSize, label_fontSize);
+    bb_h += bb_ui_draw_measure(s, val_str, "REAL STEER", bb_rx, bb_ry, val_color, lab_color, value_fontSize, label_fontSize);
     bb_ry = bb_y + bb_h;
   }
 
@@ -561,7 +561,7 @@ static void bb_ui_draw_measures_right(UIState *s, int bb_x, int bb_y, int bb_w) 
       snprintf(val_str, sizeof(val_str), "-");
     }
     strcat(val_str, val_add);
-    bb_h += bb_ui_draw_measure(s, val_str, "OP 조향각", bb_rx, bb_ry, val_color, lab_color, value_fontSize, label_fontSize);
+    bb_h += bb_ui_draw_measure(s, val_str, "DESIR STEER", bb_rx, bb_ry, val_color, lab_color, value_fontSize, label_fontSize);
     bb_ry = bb_y + bb_h;
   }
 
@@ -578,7 +578,7 @@ static void bb_ui_draw_measures_right(UIState *s, int bb_x, int bb_y, int bb_w) 
     } else if (s->scene.lateralControlSelect == 3) {
       snprintf(val_str, sizeof(val_str), "Kale");
     }
-    bb_h += bb_ui_draw_measure(s, val_str, "조향로직", bb_rx, bb_ry, val_color, lab_color, value_fontSize, label_fontSize);
+    bb_h += bb_ui_draw_measure(s, val_str, "LateralControl", bb_rx, bb_ry, val_color, lab_color, value_fontSize, label_fontSize);
     bb_ry = bb_y + bb_h;
   }
 
@@ -593,9 +593,9 @@ static void bb_ui_draw_measures_right(UIState *s, int bb_x, int bb_y, int bb_w) 
 
 static void bb_ui_draw_UI(UIState *s) {
   const int bb_dmr_w = 180;
-  const int bb_dmr_x = 1920 - bb_dmr_w - (bdr_s*4.5);
-  const int bb_dmr_y = (s->viz_rect.y + (bdr_s*4.5)) + 190;
-
+  const int bb_dmr_x = s->viz_rect.x + s->viz_rect.w - bb_dmr_w - (bdr_s*4.5);
+  const int bb_dmr_y = s->viz_rect.y + (bdr_s*4.5) + 190;
+  
   bb_ui_draw_measures_right(s, bb_dmr_x, bb_dmr_y, bb_dmr_w);
 }
 
@@ -656,11 +656,11 @@ static void bb_ui_draw_tpms(UIState *s) {
 
 static void bb_ui_battery(UIState *s) {
   const char *battery_img = s->scene.deviceState.getBatteryStatus() == "Charging" ? "battery_charging" : "battery";
-  const Rect rect = {50, 245, 220, 65};
+  const Rect rect = {50, 1245, 220, 65};
   ui_draw_image(s, rect, battery_img, 1.0f);
 
   const int battery_per_x = 100;
-  const int battery_per_y = 277;
+  const int battery_per_y = 1277;
   const int battery_per_w = 100;
 
   char battery_str[5];
