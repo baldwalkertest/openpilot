@@ -163,12 +163,12 @@ ConfirmationDialog::ConfirmationDialog(const QString &prompt_text, const QString
 }
 
 bool ConfirmationDialog::alert(const QString &prompt_text, QWidget *parent) {
-  ConfirmationDialog d = ConfirmationDialog(prompt_text, "Ok", "", parent);
+  ConfirmationDialog d = ConfirmationDialog(prompt_text, "Ok", "", parent); // "확인"
   return d.exec();
 }
 
 bool ConfirmationDialog::confirm(const QString &prompt_text, QWidget *parent) {
-  ConfirmationDialog d = ConfirmationDialog(prompt_text, "Ok", "Cancel", parent);
+  ConfirmationDialog d = ConfirmationDialog(prompt_text, "Ok", "Cancel", parent); //  "확인", "취소"
   return d.exec();
 }
 
