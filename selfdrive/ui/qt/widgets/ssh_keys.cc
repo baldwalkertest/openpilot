@@ -7,8 +7,7 @@
 #include "selfdrive/ui/qt/api.h"
 #include "selfdrive/ui/qt/widgets/input.h"
 
-SshControl::SshControl() : AbstractControl("SSH Keys", "Warning: This grants SSH access to all public keys in your GitHub settings. Never enter a GitHub username other than your own. A comma employee will NEVER ask you to add their GitHub username.", "../assets/offroad/icon_ssh.png") {
-//SshControl::SshControl() : AbstractControl("SSH키 변경", "Github 사용자 ID에 등록된 SSH키로 변경합니다.", "../assets/offroad/icon_ssh.png") {
+SshControl::SshControl() : AbstractControl("SSH키 변경", "Github 사용자 ID에 등록된 SSH키로 변경합니다.", "../assets/offroad/icon_ssh.png") {
 
   // setup widget
   hlayout->addStretch(1);
@@ -30,7 +29,7 @@ SshControl::SshControl() : AbstractControl("SSH Keys", "Warning: This grants SSH
 
   QObject::connect(&btn, &QPushButton::released, [=]() {
     if (btn.text() == "ADD") {
-      QString username = InputDialog::getText("Enter your GitHub username");
+      QString username = InputDialog::getText("GitHub username");
       if (username.length() > 0) {
         btn.setText("LOADING");
         btn.setEnabled(false);
@@ -50,10 +49,10 @@ void SshControl::refresh() {
   QString param = QString::fromStdString(params.get("GithubSshKeys"));
   if (param.length()) {
     username_label.setText(QString::fromStdString(params.get("GithubUsername")));
-    btn.setText("REMOVE");
+    btn.setText("제거");
   } else {
     username_label.setText("");
-    btn.setText("ADD");
+    btn.setText("추가");
   }
   btn.setEnabled(true);
 }
@@ -66,26 +65,24 @@ void SshControl::getUserKeys(const QString &username) {
       params.put("GithubUsername", username.toStdString());
       params.put("GithubSshKeys", resp.toStdString());
     } else {
-      ConfirmationDialog::alert("Username '" + username + "' has no keys on GitHub");
+      ConfirmationDialog::alert(username + "등록된 SSH키가 없습니다.");
     }
     refresh();
     request->deleteLater();
   });
   QObject::connect(request, &HttpRequest::failedResponse, [=] {
-    ConfirmationDialog::alert("Username '" + username + "' doesn't exist on GitHub");
+    ConfirmationDialog::alert(username + "등록된 사용자가 아닙니다.");
     refresh();
     request->deleteLater();
   });
   QObject::connect(request, &HttpRequest::timeoutResponse, [=] {
-    ConfirmationDialog::alert("Request timed out");
+    ConfirmationDialog::alert("요청시간이 초과되었습니다.");
     refresh();
     request->deleteLater();
   });
 }
 
-LateralControlSelect::LateralControlSelect() : AbstractControl("LateralControl [√]", "LateralControl Select. (Pid/Indi/Lqr)", "../assets/offroad/icon_logic.png") {
-//LateralControlSelect::LateralControlSelect() : AbstractControl("조향로직 [√]", "조향로직을 선택합니다. (Pid/Indi/Lqr)", "../assets/offroad/icon_logic.png") {
-//LateralControlSelect::LateralControlSelect() : AbstractControl("조향로직", "조향로직을 선택합니다. (Pid/Indi/Lqr/Kale)", "../assets/offroad/icon_logic.png") {
+LateralControlSelect::LateralControlSelect() : AbstractControl("조향로직", "조향로직을 선택합니다. (Pid/Indi/Lqr/Kale)", "../assets/offroad/icon_logic.png") {
   label.setAlignment(Qt::AlignVCenter|Qt::AlignRight);
   label.setStyleSheet("color: #e0e879");
   hlayout->addWidget(&label);
@@ -130,8 +127,8 @@ LateralControlSelect::LateralControlSelect() : AbstractControl("LateralControl [
     latcontrol = latcontrol + 1;
     if (latcontrol >= 2 ) {
       latcontrol = 2;
-//    if (latcontrol >= 3 ) {
-//      latcontrol = 3;
+    if (latcontrol >= 3 ) {
+      latcontrol = 3;
     } else {
     }
     QString latcontrols = QString::number(latcontrol);
@@ -149,14 +146,13 @@ void LateralControlSelect::refresh() {
     label.setText(QString::fromStdString("Indi"));
   } else if (latcontrol == "2") {
     label.setText(QString::fromStdString("Lqr"));
-//  } else if (latcontrol == "3") {
-//    label.setText(QString::fromStdString("Kale"));
+  } else if (latcontrol == "3") {
+    label.setText(QString::fromStdString("Kale"));
   }
   btnminus.setText("◀");
   btnplus.setText("▶");
 }
-MfcSelect::MfcSelect() : AbstractControl("MFC [√]", "MFC Select. (LKAS/LDWS/LFA)", "../assets/offroad/icon_mfc.png") {
-//MfcSelect::MfcSelect() : AbstractControl("MFC [√]", "MFC를 선택합니다. (LKAS/LDWS/LFA)", "../assets/offroad/icon_mfc.png") {
+MfcSelect::MfcSelect() : AbstractControl("MFC [√]", "MFC를 선택합니다. (LKAS/LDWS/LFA)", "../assets/offroad/icon_mfc.png") {
   label.setAlignment(Qt::AlignVCenter|Qt::AlignRight);
   label.setStyleSheet("color: #e0e879");
   hlayout->addWidget(&label);
