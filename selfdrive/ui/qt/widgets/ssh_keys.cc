@@ -125,8 +125,8 @@ LateralControlSelect::LateralControlSelect() : AbstractControl("조향로직", "
     auto str = QString::fromStdString(Params().get("LateralControlSelect"));
     int latcontrol = str.toInt();
     latcontrol = latcontrol + 1;
-    if (latcontrol >= 2 ) {
-      latcontrol = 2;
+    //if (latcontrol >= 2 ) {
+    //  latcontrol = 2;
     if (latcontrol >= 3 ) {
       latcontrol = 3;
     } else {

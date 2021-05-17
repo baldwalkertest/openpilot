@@ -106,8 +106,8 @@ TogglesPanel::TogglesPanel(QWidget *parent) : QWidget(parent) {
                                     this));
   }
 
-  bool record_lock = Params().getBool("RecordFrontLock");
-  record_toggle->setEnabled(!record_lock);
+//  bool record_lock = Params().getBool("RecordFrontLock");
+//  record_toggle->setEnabled(!record_lock);
 
   for(ParamControl *toggle : toggles){
     if(toggles_list->count() != 0){

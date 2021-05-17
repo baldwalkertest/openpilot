@@ -656,17 +656,17 @@ static void bb_ui_draw_tpms(UIState *s) {
 
 static void bb_ui_battery(UIState *s) {
   const char *battery_img = s->scene.deviceState.getBatteryStatus() == "Charging" ? "battery_charging" : "battery";
-  const Rect rect = {50, 995, 220, 65};
+  const Rect rect = {20, 245, 200, 50};
   ui_draw_image(s, rect, battery_img, 1.0f);
 
-  const int battery_per_x = 100;
-  const int battery_per_y = 1027;
+  const int battery_per_x = 50;
+  const int battery_per_y = 270;
   const int battery_per_w = 100;
 
   char battery_str[5];
   snprintf(battery_str, sizeof(battery_str), "%d%%", s->scene.deviceState.getBatteryPercent());
   nvgFillColor(s->vg, COLOR_BLACK);
-  nvgFontSize(s->vg, 35);
+  nvgFontSize(s->vg, 30);
   nvgFontFace(s->vg, "sans-bold");
   nvgTextAlign(s->vg, NVG_ALIGN_CENTER | NVG_ALIGN_MIDDLE);
   nvgTextBox(s->vg, battery_per_x, battery_per_y, battery_per_w, battery_str, NULL);
